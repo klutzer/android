@@ -1,5 +1,6 @@
 package concordia.financeapp;
 
+import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -76,10 +77,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void criarDialogoCadastrarConta() {
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                .setMessage("Teste de diálogo")
-                .setPositiveButton("Quero", null)
-                .setNegativeButton("Não quero", null)
+        final AlertDialog dialog = new AlertDialog.Builder(this)
+                .setMessage("Criar nova Conta")
+                .setView(R.layout.dialog_criar_conta)
+                .setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface di, int which) {
+                        System.out.println();
+                    }
+                })
+                .setNegativeButton("Cancelar", null)
                 .create();
 
         dialog.show();
