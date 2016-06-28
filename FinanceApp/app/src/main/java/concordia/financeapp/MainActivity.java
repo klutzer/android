@@ -1,5 +1,6 @@
 package concordia.financeapp;
 
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         edtNumber = (CurrencyEditText) findViewById(R.id.edtNumber);
+        edtNumber.setEnabled(false);
         toolbar.setTitle("Aplicação Financeira");
         setSupportActionBar(toolbar);
 
@@ -46,8 +48,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Conta contaSelecionada = contaAdapter.getItem(position);
-                Toast.makeText(MainActivity.this, "Conta "+contaSelecionada+" selecionada!",
-                        Toast.LENGTH_SHORT).show();
+                if (contaSelecionada.getId() == null) {
+                    criarDialogoCadastrarConta();
+                }else {
+                    Toast.makeText(MainActivity.this, "Conta " + contaSelecionada + " selecionada!",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -66,7 +72,17 @@ public class MainActivity extends AppCompatActivity {
             carteira.save();
             contas.add(carteira);
         }
-        contaAdapter.addAll(contas);
+        contaAdapter.setData(contas);
+    }
+
+    private void criarDialogoCadastrarConta() {
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setMessage("Teste de diálogo")
+                .setPositiveButton("Quero", null)
+                .setNegativeButton("Não quero", null)
+                .create();
+
+        dialog.show();
     }
 
     @Override
