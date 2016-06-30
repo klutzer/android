@@ -1,4 +1,4 @@
-package com.example.erico.aplicacaoteste;
+package com.example.erico.geotests;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

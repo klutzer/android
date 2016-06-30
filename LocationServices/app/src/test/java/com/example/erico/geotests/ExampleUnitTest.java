@@ -1,4 +1,4 @@
-package com.example.erico.aplicacaoteste;
+package com.example.erico.geotests;
 
 import org.junit.Test;
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.erico.aplicacaoteste.MainActivity">
+    tools:context="com.example.erico.geotests.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/fragment"
-        android:name="com.example.erico.aplicacaoteste.MainFragment"
+        android:name="com.example.erico.geotests.MainFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"

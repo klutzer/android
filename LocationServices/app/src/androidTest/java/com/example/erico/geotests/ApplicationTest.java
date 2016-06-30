@@ -1,4 +1,4 @@
-package com.example.erico.aplicacaoteste;
+package com.example.erico.geotests;
 
 import static android.support.test.espresso.Espresso.*;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
