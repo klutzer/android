@@ -166,7 +166,6 @@ public class MainFragment extends Fragment implements GoogleApiClient.Connection
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(currentLatLng, 16);
         mMap.addMarker(options);
         mMap.moveCamera(cameraUpdate);
-        mMap.animateCamera(cameraUpdate);
     }
 
     @Override
