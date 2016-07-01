@@ -54,8 +54,11 @@ public class MainActivity extends AppCompatActivity implements NovaContaDialog.N
                 }else {
                     if (contaSelecionada.getSaldoInicial() == null || contaSelecionada.getSaldoInicial() == 0) {
                         edtNumber.setText("0");
+                    }else {
+                        String formattedValue = edtNumber.formatCurrency(Long.toString(
+                                (long) (contaSelecionada.getSaldoInicial() * 100)));
+                        edtNumber.setText(formattedValue);
                     }
-                    edtNumber.setText(String.valueOf(contaSelecionada.getSaldoInicial()));
                     Toast.makeText(MainActivity.this, "Conta " + contaSelecionada + " selecionada!",
                             Toast.LENGTH_SHORT).show();
                 }
