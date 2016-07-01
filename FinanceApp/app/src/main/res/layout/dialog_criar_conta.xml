@@ -22,10 +22,10 @@
             />
 
         <EditText
+            android:id="@+id/dialog_criar_conta_edtNome"
             android:layout_column="1"
             android:layout_row="0"
-            android:layout_gravity="fill_horizontal"
-            android:inputType="textCapCharacters" />
+            android:layout_gravity="fill_horizontal" />
 
         <TextView
             android:layout_column="0"
@@ -37,6 +37,7 @@
             />
 
         <com.blackcat.currencyedittext.CurrencyEditText
+            android:id="@+id/dialog_criar_conta_edtSaldoInicial"
             android:layout_column="1"
             android:layout_row="1"
             android:layout_gravity="fill_horizontal"

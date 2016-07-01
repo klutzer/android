@@ -1,0 +1,2 @@
+Dialogs (AlertDialog com DialogFragment)
+https://developer.android.com/guide/topics/ui/dialogs.html?hl=pt-br

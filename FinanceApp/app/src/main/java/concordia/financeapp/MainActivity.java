@@ -21,7 +21,7 @@ import java.util.List;
 import concordia.financeapp.adapters.ContaSpinnerAdapter;
 import concordia.financeapp.business.Conta;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NovaContaDialog.NovaContaDialogListener {
 
     private Toolbar toolbar;
     private CurrencyEditText edtNumber;
@@ -52,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
                 if (contaSelecionada.getId() == null) {
                     criarDialogoCadastrarConta();
                 }else {
+                    if (contaSelecionada.getSaldoInicial() == null || contaSelecionada.getSaldoInicial() == 0) {
+                        edtNumber.setText("0");
+                    }
+                    edtNumber.setText(String.valueOf(contaSelecionada.getSaldoInicial()));
                     Toast.makeText(MainActivity.this, "Conta " + contaSelecionada + " selecionada!",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -74,22 +78,12 @@ public class MainActivity extends AppCompatActivity {
             contas.add(carteira);
         }
         contaAdapter.setData(contas);
+        spConta.setSelection(0);
     }
 
     private void criarDialogoCadastrarConta() {
-        final AlertDialog dialog = new AlertDialog.Builder(this)
-                .setMessage("Criar nova Conta")
-                .setView(R.layout.dialog_criar_conta)
-                .setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface di, int which) {
-                        System.out.println();
-                    }
-                })
-                .setNegativeButton("Cancelar", null)
-                .create();
-
-        dialog.show();
+        NovaContaDialog contaDialog = new NovaContaDialog();
+        contaDialog.show(getFragmentManager(), "ContaDialog");
     }
 
     @Override
@@ -117,5 +111,16 @@ public class MainActivity extends AppCompatActivity {
             }
             default: return false;
         }
+    }
+
+    @Override
+    public void onContaCriada(Conta conta) {
+        Toast.makeText(this, "Conta "+conta.getNome()+" criada!", Toast.LENGTH_SHORT).show();
+        carregarContas();
+    }
+
+    @Override
+    public void onFechamentoDoDialogo() {
+        carregarContas();
     }
 }
