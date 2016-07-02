@@ -47,10 +47,11 @@
                 android:text="Saldo Inicial: "
                 android:id="@+id/textView2" />
 
-            <com.blackcat.currencyedittext.CurrencyEditText
+            <concordia.financeapp.components.MoneyEditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/edtNumber"
+                android:enabled="false"
                 android:layout_weight="1"/>
 
         </LinearLayout>

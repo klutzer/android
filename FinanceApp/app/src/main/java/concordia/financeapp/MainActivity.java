@@ -1,30 +1,27 @@
 package concordia.financeapp;
 
-import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.blackcat.currencyedittext.CurrencyEditText;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.List;
 
 import concordia.financeapp.adapters.ContaSpinnerAdapter;
 import concordia.financeapp.business.Conta;
+import concordia.financeapp.components.MoneyEditText;
 
 public class MainActivity extends AppCompatActivity implements NovaContaDialog.NovaContaDialogListener {
 
     private Toolbar toolbar;
-    private CurrencyEditText edtNumber;
+    private MoneyEditText edtNumber;
     private MaterialSearchView searchView;
     private Spinner spConta;
     private ContaSpinnerAdapter contaAdapter;
@@ -35,8 +32,7 @@ public class MainActivity extends AppCompatActivity implements NovaContaDialog.N
         setContentView(R.layout.activity_main);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        edtNumber = (CurrencyEditText) findViewById(R.id.edtNumber);
-        edtNumber.setEnabled(false);
+        edtNumber = (MoneyEditText) findViewById(R.id.edtNumber);
         toolbar.setTitle("Aplicação Financeira");
         setSupportActionBar(toolbar);
 
@@ -52,13 +48,7 @@ public class MainActivity extends AppCompatActivity implements NovaContaDialog.N
                 if (contaSelecionada.getId() == null) {
                     criarDialogoCadastrarConta();
                 }else {
-                    if (contaSelecionada.getSaldoInicial() == null || contaSelecionada.getSaldoInicial() == 0) {
-                        edtNumber.setText("0");
-                    }else {
-                        String formattedValue = edtNumber.formatCurrency(Long.toString(
-                                (long) (contaSelecionada.getSaldoInicial() * 100)));
-                        edtNumber.setText(formattedValue);
-                    }
+                    edtNumber.setValue(contaSelecionada.getSaldoInicial());
                     Toast.makeText(MainActivity.this, "Conta " + contaSelecionada + " selecionada!",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -70,10 +60,10 @@ public class MainActivity extends AppCompatActivity implements NovaContaDialog.N
             }
         });
 
-        carregarContas();
+        carregarContas(null);
     }
 
-    private void carregarContas() {
+    private void carregarContas(Conta selected) {
         List<Conta> contas = Conta.listAll(Conta.class);
         if (contas.isEmpty()) {
             Conta carteira = new Conta("Carteira");
@@ -81,7 +71,11 @@ public class MainActivity extends AppCompatActivity implements NovaContaDialog.N
             contas.add(carteira);
         }
         contaAdapter.setData(contas);
-        spConta.setSelection(0);
+        if (selected == null) {
+            spConta.setSelection(0);
+        }else {
+            spConta.setSelection(contaAdapter.getPosition(selected));
+        }
     }
 
     private void criarDialogoCadastrarConta() {
@@ -119,11 +113,12 @@ public class MainActivity extends AppCompatActivity implements NovaContaDialog.N
     @Override
     public void onContaCriada(Conta conta) {
         Toast.makeText(this, "Conta "+conta.getNome()+" criada!", Toast.LENGTH_SHORT).show();
-        carregarContas();
+        carregarContas(conta);
     }
 
     @Override
     public void onFechamentoDoDialogo() {
-        carregarContas();
+        Toast.makeText(this, "Operação cancelada", Toast.LENGTH_SHORT).show();
+        carregarContas(null);
     }
 }

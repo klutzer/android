@@ -10,9 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-import com.blackcat.currencyedittext.CurrencyEditText;
-
 import concordia.financeapp.business.Conta;
+import concordia.financeapp.components.MoneyEditText;
 
 /**
  * Referências: https://developer.android.com/guide/topics/ui/dialogs.html?hl=pt-br
@@ -22,7 +21,7 @@ public class NovaContaDialog extends DialogFragment {
 
     private NovaContaDialogListener listener;
     private EditText edtDescricao;
-    private CurrencyEditText edtSaldoInicial;
+    private MoneyEditText edtSaldoInicial;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -30,7 +29,7 @@ public class NovaContaDialog extends DialogFragment {
         View dialogView = inflater.inflate(R.layout.dialog_criar_conta, null);
 
         edtDescricao = (EditText) dialogView.findViewById(R.id.dialog_criar_conta_edtNome);
-        edtSaldoInicial = (CurrencyEditText) dialogView.findViewById(R.id.dialog_criar_conta_edtSaldoInicial);
+        edtSaldoInicial = (MoneyEditText) dialogView.findViewById(R.id.dialog_criar_conta_edtSaldoInicial);
 
         return new AlertDialog.Builder(getActivity())
                 .setCancelable(false)
@@ -42,7 +41,12 @@ public class NovaContaDialog extends DialogFragment {
                         criarConta();
                     }
                 })
-                .setNegativeButton("Cancelar", null)
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        listener.onFechamentoDoDialogo();
+                    }
+                })
                 .create();
     }
 
@@ -55,7 +59,7 @@ public class NovaContaDialog extends DialogFragment {
     public void criarConta() {
         Conta conta = new Conta();
         conta.setNome(edtDescricao.getText().toString());
-        conta.setSaldoInicial(edtSaldoInicial.getRawValue()/100d);
+        conta.setSaldoInicial(edtSaldoInicial.getValue());
         conta.save();
         listener.onContaCriada(conta);
     }
@@ -67,7 +71,7 @@ public class NovaContaDialog extends DialogFragment {
     }
 
     public interface NovaContaDialogListener {
-        public void onContaCriada(Conta conta);
-        public void onFechamentoDoDialogo();
+        void onContaCriada(Conta conta);
+        void onFechamentoDoDialogo();
     }
 }
