@@ -3,6 +3,7 @@ package concordia.financeapp;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,18 +11,19 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.blackcat.currencyedittext.CurrencyEditText;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.List;
 
 import concordia.financeapp.adapters.ContaSpinnerAdapter;
 import concordia.financeapp.business.Conta;
-import concordia.financeapp.components.MoneyEditText;
 
 public class MainActivity extends AppCompatActivity implements NovaContaDialog.NovaContaDialogListener {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     private Toolbar toolbar;
-    private MoneyEditText edtNumber;
+    private CurrencyEditText edtNumber;
     private MaterialSearchView searchView;
     private Spinner spConta;
     private ContaSpinnerAdapter contaAdapter;
@@ -32,26 +34,18 @@ public class MainActivity extends AppCompatActivity implements NovaContaDialog.N
         setContentView(R.layout.activity_main);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        edtNumber = (MoneyEditText) findViewById(R.id.edtNumber);
         toolbar.setTitle("Aplicação Financeira");
         setSupportActionBar(toolbar);
 
         searchView = (MaterialSearchView) findViewById(R.id.search_view);
-
+        edtNumber = (CurrencyEditText) findViewById(R.id.edtNumber);
         spConta = (Spinner) findViewById(R.id.spConta);
         contaAdapter = new ContaSpinnerAdapter(this);
         spConta.setAdapter(contaAdapter);
         spConta.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Conta contaSelecionada = contaAdapter.getItem(position);
-                if (contaSelecionada.getId() == null) {
-                    criarDialogoCadastrarConta();
-                }else {
-                    edtNumber.setValue(contaSelecionada.getSaldoInicial());
-                    Toast.makeText(MainActivity.this, "Conta " + contaSelecionada + " selecionada!",
-                            Toast.LENGTH_SHORT).show();
-                }
+                selecionaConta(position);
             }
 
             @Override
@@ -63,8 +57,22 @@ public class MainActivity extends AppCompatActivity implements NovaContaDialog.N
         carregarContas(null);
     }
 
-    private void carregarContas(Conta selected) {
-        List<Conta> contas = Conta.listAll(Conta.class);
+    private void selecionaConta(int position) {
+        if (spConta.getSelectedItemPosition() != position) {
+            spConta.setSelection(position);
+            return;
+        }
+        Conta contaSelecionada = contaAdapter.getItem(position);
+        if (contaSelecionada.getId() == null) {
+            criarDialogoCadastrarConta();
+        }else {
+            Log.d(TAG, "Valor é "+contaSelecionada.getSaldoInicial());
+            edtNumber.setValue(contaSelecionada.getSaldoInicial());
+        }
+    }
+
+    private void carregarContas(final Conta selected) {
+        List<Conta> contas = Conta.listAll(Conta.class, "nome");
         if (contas.isEmpty()) {
             Conta carteira = new Conta("Carteira");
             carteira.save();
@@ -72,9 +80,10 @@ public class MainActivity extends AppCompatActivity implements NovaContaDialog.N
         }
         contaAdapter.setData(contas);
         if (selected == null) {
-            spConta.setSelection(0);
+            selecionaConta(0);
         }else {
-            spConta.setSelection(contaAdapter.getPosition(selected));
+            int position = contaAdapter.getPosition(selected);
+            selecionaConta(position);
         }
     }
 

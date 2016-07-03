@@ -36,4 +36,20 @@ public class Conta extends SugarRecord {
     public String toString() {
         return nome;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Conta) {
+            if (getId() == null) {
+                return this == o;
+            }
+            return getId().equals(((Conta) o).getId());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return getId() == null ? super.hashCode() : getId().hashCode();
+    }
 }

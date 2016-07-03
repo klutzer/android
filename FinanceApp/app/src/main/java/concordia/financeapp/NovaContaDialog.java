@@ -10,8 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import com.blackcat.currencyedittext.CurrencyEditText;
+
 import concordia.financeapp.business.Conta;
-import concordia.financeapp.components.MoneyEditText;
 
 /**
  * Referências: https://developer.android.com/guide/topics/ui/dialogs.html?hl=pt-br
@@ -21,7 +22,7 @@ public class NovaContaDialog extends DialogFragment {
 
     private NovaContaDialogListener listener;
     private EditText edtDescricao;
-    private MoneyEditText edtSaldoInicial;
+    private CurrencyEditText edtSaldoInicial;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -29,7 +30,7 @@ public class NovaContaDialog extends DialogFragment {
         View dialogView = inflater.inflate(R.layout.dialog_criar_conta, null);
 
         edtDescricao = (EditText) dialogView.findViewById(R.id.dialog_criar_conta_edtNome);
-        edtSaldoInicial = (MoneyEditText) dialogView.findViewById(R.id.dialog_criar_conta_edtSaldoInicial);
+        edtSaldoInicial = (CurrencyEditText) dialogView.findViewById(R.id.dialog_criar_conta_edtSaldoInicial);
 
         return new AlertDialog.Builder(getActivity())
                 .setCancelable(false)
