@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -23,9 +24,17 @@ public class NovaContaDialog extends DialogFragment {
     private NovaContaDialogListener listener;
     private EditText edtDescricao;
     private CurrencyEditText edtSaldoInicial;
+    private static final String TAG = NovaContaDialog.class.getSimpleName();
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d(TAG, "Passou no onCreate()");
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Log.d(TAG, "Passou no onCreateDialog()");
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_criar_conta, null);
 
@@ -34,7 +43,7 @@ public class NovaContaDialog extends DialogFragment {
 
         return new AlertDialog.Builder(getActivity())
                 .setCancelable(false)
-                .setMessage("Criar nova conta")
+                .setTitle("Criar nova conta")
                 .setView(dialogView)
                 .setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
                     @Override
