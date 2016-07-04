@@ -45,10 +45,4 @@
     <include android:id="@+id/toolbar"
         layout="@layout/toolbar"/>
 
-    <com.miguelcatalan.materialsearchview.MaterialSearchView
-        android:id="@+id/search_view"
-        android:theme="@style/AppTheme"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
 </RelativeLayout>

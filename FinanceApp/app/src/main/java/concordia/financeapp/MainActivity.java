@@ -1,11 +1,8 @@
 package concordia.financeapp;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +23,6 @@ public class MainActivity extends AppCompatActivity implements NovaContaDialog.N
     private static final String TAG = MainActivity.class.getSimpleName();
     private Toolbar toolbar;
     private CurrencyEditText edtNumber;
-    private MaterialSearchView searchView;
     private Spinner spConta;
     private ContaSpinnerAdapter contaAdapter;
 
@@ -39,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements NovaContaDialog.N
         toolbar.setTitle("Aplicação Financeira");
         setSupportActionBar(toolbar);
 
-        searchView = (MaterialSearchView) findViewById(R.id.search_view);
         edtNumber = (CurrencyEditText) findViewById(R.id.edtNumber);
         spConta = (Spinner) findViewById(R.id.spConta);
         contaAdapter = new ContaSpinnerAdapter(this);
@@ -68,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements NovaContaDialog.N
         if (contaSelecionada.getId() == null) {
             criarDialogoCadastrarConta();
         }else {
-            Log.d(TAG, "Valor é "+contaSelecionada.getSaldoInicial());
             edtNumber.setValue(contaSelecionada.getSaldoInicial());
         }
     }
@@ -97,10 +91,6 @@ public class MainActivity extends AppCompatActivity implements NovaContaDialog.N
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        MenuItem item = menu.findItem(R.id.menu_search);
-        searchView.setMenuItem(item);
-
         return true;
     }
 
@@ -111,10 +101,6 @@ public class MainActivity extends AppCompatActivity implements NovaContaDialog.N
                 double valor = edtNumber.getRawValue()/100d;
                 Toast.makeText(this, "Preferências selecionada "+
                         valor+" - "+edtNumber.getText(), Toast.LENGTH_SHORT).show();
-                return true;
-            }
-            case R.id.menu_search: {
-
                 return true;
             }
             default: return false;

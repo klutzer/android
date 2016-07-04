@@ -6,10 +6,4 @@
        app:showAsAction="never"
        android:title="Preferências"/>
 
-   <item
-       android:id="@+id/menu_search"
-       android:icon="@android:drawable/ic_menu_search"
-       android:orderInCategory="100"
-       android:title="Busca"
-       app:showAsAction="always" />
 </menu>
