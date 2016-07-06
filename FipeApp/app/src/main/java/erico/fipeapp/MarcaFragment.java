@@ -1,25 +1,28 @@
-package erico.financeapp;
+package erico.fipeapp;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import erico.financeapp.service.FipeService;
+import java.util.List;
+
+import erico.fipeapp.business.Marca;
+import erico.fipeapp.service.FipeService;
+import erico.fipeapp.service.ServiceCallback;
 
 public class MarcaFragment extends Fragment {
+
+    private RecyclerView recyclerView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public MarcaFragment() {
-    }
+    public MarcaFragment() {}
 
     public static MarcaFragment newInstance() {
         MarcaFragment fragment = new MarcaFragment();
@@ -34,11 +37,28 @@ public class MarcaFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_marca, container, false);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rvMarcas);
-        recyclerView.setHasFixedSize(true);
+        recyclerView = (RecyclerView) view.findViewById(R.id.rvMarcas);
+        recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new MarcaAdapter(FipeService.getMarcas()));
+
+        recarregarMarcas();
+
         return view;
+    }
+
+    private void recarregarMarcas() {
+        FipeService service = new FipeService();
+        service.getMarcas(new ServiceCallback<List<Marca>>() {
+            @Override
+            public void onSuccess(List<Marca> obj) {
+                MarcaAdapter adapter = (MarcaAdapter) recyclerView.getAdapter();
+                if (adapter == null) {
+                    recyclerView.setAdapter(new MarcaAdapter(obj));
+                }else {
+                    adapter.setData(obj);
+                }
+            }
+        });
     }
 
 

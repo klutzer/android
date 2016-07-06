@@ -1,4 +1,4 @@
-package erico.financeapp;
+package erico.fipeapp;
 
 import org.junit.Test;
 

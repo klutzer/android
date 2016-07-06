@@ -1,4 +1,4 @@
-package erico.financeapp.business;
+package erico.fipeapp.business;
 
 /**
  * Created by erico on 10/06/16.

@@ -1,4 +1,4 @@
-package erico.financeapp;
+package erico.fipeapp;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -8,16 +8,21 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import erico.financeapp.business.Marca;
+import erico.fipeapp.business.Marca;
 
 import java.util.List;
 
 public class MarcaAdapter extends RecyclerView.Adapter<MarcaAdapter.ViewHolder> {
 
-    private final List<Marca> marcaList;
+    private List<Marca> marcaList;
 
     public MarcaAdapter(List<Marca> items) {
         marcaList = items;
+    }
+
+    public void setData(List<Marca> items) {
+        marcaList = items;
+        notifyDataSetChanged();
     }
 
     @Override

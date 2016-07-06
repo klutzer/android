@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="erico.financeapp.MainActivity">
+    tools:context="erico.fipeapp.MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -43,7 +43,7 @@
     <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="erico.financeapp.MarcaFragment"
+        android:name="erico.fipeapp.MarcaFragment"
         android:id="@+id/fragment_marca"
         android:layout_below="@+id/btnOla"
         android:layout_alignParentLeft="true"
