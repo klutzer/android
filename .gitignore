@@ -34,11 +34,15 @@ captures/
 
 # Intellij
 *.iml
-.idea/workspace.xml
+**/.idea/workspace.xml
 **/.idea/misc.xml
+**/.idea/libaries/
 
 # Keystore files
 *.jks
 
 # Chaves de autenticacao
 google_maps_key.xml
+
+#KDE specific
+.directory
